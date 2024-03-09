@@ -96,7 +96,7 @@ const Dashboard: NextPage = () => {
                                                     guild.icon
                                                         ? iconHashToUrl(
                                                               guild.icon,
-                                                              guild.id
+                                                              guild.id,
                                                           )
                                                         : "https://cdn.discordapp.com/embed/avatars/0.png"
                                                 }
