@@ -1,3 +1,5 @@
+"use client";
+
 import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import {
@@ -5,7 +7,7 @@ import {
     ChevronUpDownIcon,
     PlusIcon,
 } from "@heroicons/react/20/solid";
-import type { Guild } from "../server/trpc/router/discord";
+import type { Guild } from "src/server/server-utils";
 
 import { iconHashToUrl, classNames } from "../utils/utils";
 import Link from "next/link";

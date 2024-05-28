@@ -7,7 +7,7 @@ import DashboardLayout from "../../../layouts/Dashboard";
 import { trpc } from "../../../utils/trpc";
 import { classNames } from "../../../utils/utils";
 import ChannelDropdown from "../../../components/ChannelDropdown";
-import type { Channel, Role } from "../../../server/trpc/router/discord";
+import type { Channel, Role } from "src/server/server-utils";
 import RoleDropdown from "../../../components/RoleDropdown";
 import SavedNotificationContainer from "../../../components/SavedNotification";
 import Link from "next/link";

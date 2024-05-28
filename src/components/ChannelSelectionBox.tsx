@@ -6,7 +6,7 @@ import {
     SpeakerWaveIcon,
     SignalIcon,
 } from "@heroicons/react/20/solid";
-import type { Channel } from "../server/trpc/router/discord";
+import type { Channel } from "src/server/server-utils";
 
 const ChannelSelectionBox: React.FC<{
     channels: Channel[];

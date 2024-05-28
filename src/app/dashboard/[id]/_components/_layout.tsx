@@ -10,91 +10,53 @@ import {
     XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
-import GuildDropdown from "../components/GuildDropdown";
-import Logo from "../components/Logo";
-import { trpc } from "../utils/trpc";
-import { classNames } from "../utils/utils";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { classNames } from "src/utils/utils";
+import GuildDropdown from "@/components/GuildDropdown";
+import Logo from "@/components/Logo";
+import { UserButton } from "@clerk/nextjs";
+import type { Guild } from "src/server/server-utils";
+import { usePathname } from "next/navigation";
 
-type Query = {
-    id: string;
-};
-
-type Props = {
+export function ClientDashboardLayout({
+    children,
+    guilds,
+    guildId,
+    user,
+}: {
     children: React.ReactNode;
-};
-
-const DashboardLayout: React.FC<Props> = ({ children }) => {
+    guilds: Guild[];
+    guildId: string;
+    user: { email: string; username: string };
+}) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const router = useRouter();
-    const path = router.pathname;
-    const { id } = router.query as Query;
-    const subPage = path.split("/")[3];
-    const userData = useUser();
-
-    const { data: allowed, isLoading: loading } =
-        trpc.discord.checkUserPermissions.useQuery({
-            guild: id,
-        });
-
-    const { data: guilds } = trpc.discord.getGuilds.useQuery();
-    const filteredGuilds = guilds?.filter((g) => g.includesBot);
+    const pathname = usePathname() ?? "";
+    const subPage = pathname.split("/")[3];
 
     const navigation = [
         {
             name: "Server Settings",
-            href: `/dashboard/${id}`,
+            href: `/dashboard/${guildId}`,
             icon: Cog6ToothIcon,
-            current: path === "/dashboard/[id]",
+            current: pathname === `/dashboard/${guildId}`,
         },
         {
             name: "Linked Channels",
-            href: `/dashboard/${id}/links`,
+            href: `/dashboard/${guildId}/links`,
             icon: LinkIcon,
-            current: path === "/dashboard/[id]/links",
+            current: pathname === `/dashboard/${guildId}/links`,
         },
         {
             name: "Voice Generators",
-            href: `/dashboard/${id}/generators`,
+            href: `/dashboard/${guildId}/generators`,
             icon: BoltIcon,
-            current: path === "/dashboard/[id]/generators",
+            current: pathname === `/dashboard/${guildId}/generators`,
         },
     ];
 
     useEffect(() => {
         setSidebarOpen(false);
-    }, [path, id]);
-
-    if (!userData.isLoaded) {
-        return (
-            <SeoHeaders
-                title="VC Roles | Dashboard"
-                description="View the dashboard for your server"
-                url="https://www.vcroles.com/dashboard"
-            />
-        );
-    }
-
-    if (!userData.isSignedIn || !userData.user) {
-        // This should never happen because we are using the middleware
-        // to protect the /dashboard route
-        return;
-    }
-
-    if (!allowed && !loading) {
-        if (typeof window !== "undefined") {
-            router.push("/dashboard");
-        }
-        return (
-            <SeoHeaders
-                title="VC Roles | Dashboard"
-                description="View the dashboard for your server"
-                url="https://www.vcroles.com/dashboard"
-            />
-        );
-    }
+    }, [pathname, guildId]);
 
     return (
         <>
@@ -169,8 +131,8 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                         </div>
                                         <nav className="mt-5 space-y-1 px-2">
                                             <GuildDropdown
-                                                guilds={filteredGuilds ?? []}
-                                                selectedID={id}
+                                                guilds={guilds}
+                                                selectedID={guildId}
                                                 subPage={subPage}
                                             />
                                             {navigation.map((item) => (
@@ -204,14 +166,10 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                                 <UserButton />
                                                 <div className="ml-3">
                                                     <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">
-                                                        {userData.user.username}
+                                                        {user.username}
                                                     </p>
                                                     <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">
-                                                        {
-                                                            userData.user
-                                                                .primaryEmailAddress
-                                                                ?.emailAddress
-                                                        }
+                                                        {user.email}
                                                     </p>
                                                 </div>
                                             </div>
@@ -238,8 +196,8 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                             </div>
                             <nav className="mt-5 flex-1 space-y-1 bg-white px-2">
                                 <GuildDropdown
-                                    guilds={filteredGuilds ?? []}
-                                    selectedID={id}
+                                    guilds={guilds}
+                                    selectedID={guildId}
                                     subPage={subPage}
                                 />
                                 {navigation.map((item) => (
@@ -273,14 +231,10 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
                                     <UserButton />
                                     <div className="ml-3">
                                         <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
-                                            {userData.user.username}
+                                            {user.username}
                                         </p>
                                         <p className="overflow-clip text-xs font-medium text-gray-500 group-hover:text-gray-700">
-                                            {
-                                                userData.user
-                                                    .primaryEmailAddress
-                                                    ?.emailAddress
-                                            }
+                                            {user.email}
                                         </p>
                                     </div>
                                 </div>
@@ -317,6 +271,4 @@ const DashboardLayout: React.FC<Props> = ({ children }) => {
             </div>
         </>
     );
-};
-
-export default DashboardLayout;
+}

@@ -5,7 +5,7 @@ import {
     ChevronUpDownIcon,
     XMarkIcon,
 } from "@heroicons/react/20/solid";
-import type { Role } from "../server/trpc/router/discord";
+import type { Role } from "src/server/server-utils";
 
 import { classNames } from "../utils/utils";
 

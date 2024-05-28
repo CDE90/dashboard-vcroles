@@ -2,13 +2,19 @@ import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
-const DeleteModal: React.FC<{
+function DeleteModal({
+    open,
+    setOpen,
+    handleDelete,
+    title,
+    description,
+}: {
     open: boolean;
     setOpen: (open: boolean) => void;
-    handleDelete: () => void;
+    handleDelete: () => Promise<void>;
     title: string;
     description: string;
-}> = ({ open, setOpen, handleDelete, title, description }) => {
+}) {
     const cancelButtonRef = useRef(null);
 
     return (
@@ -70,8 +76,8 @@ const DeleteModal: React.FC<{
                                     <button
                                         type="button"
                                         className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                                        onClick={() => {
-                                            handleDelete();
+                                        onClick={async () => {
+                                            await handleDelete();
                                             setOpen(false);
                                         }}
                                     >
@@ -93,6 +99,6 @@ const DeleteModal: React.FC<{
             </Dialog>
         </Transition.Root>
     );
-};
+}
 
 export default DeleteModal;

@@ -1,6 +1,6 @@
 import RoleDropdown from "./RoleDropdown";
 import { XMarkIcon } from "@heroicons/react/20/solid";
-import type { Role } from "../server/trpc/router/discord";
+import type { Role } from "src/server/server-utils";
 
 const RoleSelectionBox: React.FC<{
     roles: Role[];

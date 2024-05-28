@@ -9,7 +9,7 @@ import {
     FolderIcon,
     XMarkIcon,
 } from "@heroicons/react/20/solid";
-import type { Channel } from "../server/trpc/router/discord";
+import type { Channel } from "src/server/server-utils";
 
 import { classNames } from "../utils/utils";
 

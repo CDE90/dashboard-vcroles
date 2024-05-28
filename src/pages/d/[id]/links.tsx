@@ -9,7 +9,7 @@ import LinkTypeDropdown from "../../../components/LinkTypeDropdown";
 import RoleSelectionBox from "../../../components/RoleSelectionBox";
 import SavedNotificationContainer from "../../../components/SavedNotification";
 import DashboardLayout from "../../../layouts/Dashboard";
-import { type Channel } from "../../../server/trpc/router/discord";
+import type { Channel } from "src/server/server-utils";
 import { trpc } from "../../../utils/trpc";
 import type { NextPageWithLayout } from "../../_app";
 import { default as NextLink } from "next/link";
@@ -166,7 +166,7 @@ const DashboardLinksPage: NextPageWithLayout = () => {
                         setOpen={setModalOpen}
                         title="Delete Link"
                         description="Are you sure you want to delete this link?"
-                        handleDelete={() => {
+                        handleDelete={async () => {
                             if (selectedLink) {
                                 deleteMutation.mutate({
                                     dbId: selectedLink.dbId,

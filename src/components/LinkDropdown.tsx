@@ -11,7 +11,7 @@ import {
     LockClosedIcon,
 } from "@heroicons/react/20/solid";
 import { type Link, LinkType } from "~/client";
-import type { Channel } from "../server/trpc/router/discord";
+import type { Channel } from "src/server/server-utils";
 
 import { classNames } from "../utils/utils";
 
