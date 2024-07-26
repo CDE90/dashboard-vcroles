@@ -29,7 +29,7 @@
         "@upstash/redis": "^1.31.3",
         "@vercel/og": "^0.6.2",
         "axios": "^1.7.2",
-        "babel-plugin-react-compiler": "0.0.0-experimental-592953e-20240517",
+        "babel-plugin-react-compiler": "0.0.0",
         "next": "15.0.0-rc.0",
         "next-sitemap": "^4.2.3",
         "posthog-js": "^1.135.2",
