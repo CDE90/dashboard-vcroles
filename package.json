@@ -21,7 +21,7 @@
         "@prisma/client": "^5.14.0",
         "@sindresorhus/slugify": "^2.2.1",
         "@tailwindcss/typography": "^0.5.13",
-        "@tanstack/react-query": "^4.36.1",
+        "@tanstack/react-query": "^5.0.0",
         "@trpc/client": "^10.45.2",
         "@trpc/next": "^10.45.2",
         "@trpc/react-query": "^10.45.2",
